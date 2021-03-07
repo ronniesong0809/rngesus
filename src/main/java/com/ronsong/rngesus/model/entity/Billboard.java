@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -25,7 +26,7 @@ public class Billboard implements Serializable {
     private String content;
 
     @TableField(value = "timestamp", fill = FieldFill.INSERT)
-    private Data timestamp;
+    private Date timestamp;
 
     @Builder.Default
     @TableField("`show`")

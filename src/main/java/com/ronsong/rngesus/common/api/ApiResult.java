@@ -9,7 +9,7 @@ import java.util.Optional;
 @Data
 @NoArgsConstructor
 public class ApiResult<T> implements Serializable {
-    private static final long serialVersionUID = -3;
+    private static final long serialVersionUID = 1291868029886608117L;
     private long code;
     private T data;
     private String message;
