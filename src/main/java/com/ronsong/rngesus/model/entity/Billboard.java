@@ -17,7 +17,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("billboard")
 public class Billboard implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1342981060726414530L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;
