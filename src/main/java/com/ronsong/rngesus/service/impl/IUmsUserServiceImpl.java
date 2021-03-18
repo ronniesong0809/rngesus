@@ -51,7 +51,7 @@ public class IUmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> imp
         try {
             LambdaQueryWrapper<UmsUser> wrapper = new LambdaQueryWrapper<>();
 
-            wrapper.eq(UmsUser::getUsername, dto.getPassword());
+            wrapper.eq(UmsUser::getUsername, dto.getUsername());
             UmsUser user = baseMapper.selectOne(wrapper);
 
             String encode = MD5Utils.getMD5(dto.getPassword());
