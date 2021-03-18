@@ -1,6 +1,7 @@
 package com.ronsong.rngesus.controller;
 
 import com.ronsong.rngesus.common.api.ApiResult;
+import com.ronsong.rngesus.model.dto.LoginDTO;
 import com.ronsong.rngesus.model.dto.SignupDTO;
 import com.ronsong.rngesus.model.entity.UmsUser;
 import com.ronsong.rngesus.service.IUmsUserService;
@@ -30,6 +31,18 @@ public class UmsUserController extends BaseController {
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("user", user);
-        return ApiResult.success(map);
+        return ApiResult.success(map, "Signup success!!");
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ApiResult<Map<String, String>> login(@Valid @RequestBody LoginDTO dto) {
+        String token = iUmsUserService.executeLogin(dto);
+        if (ObjectUtils.isEmpty(token)) {
+            return ApiResult.failed("Login failed!!");
+        }
+
+        Map<String, String> map = new HashMap<>(16);
+        map.put("user", token);
+        return ApiResult.success(map, "Login success!!");
     }
 }

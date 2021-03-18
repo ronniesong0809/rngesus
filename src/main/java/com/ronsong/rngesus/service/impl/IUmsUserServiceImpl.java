@@ -4,7 +4,9 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ronsong.rngesus.common.exception.ApiAsserts;
+import com.ronsong.rngesus.common.jwt.JwtUtil;
 import com.ronsong.rngesus.mapper.UmsUserMapper;
+import com.ronsong.rngesus.model.dto.LoginDTO;
 import com.ronsong.rngesus.model.dto.SignupDTO;
 import com.ronsong.rngesus.model.entity.UmsUser;
 import com.ronsong.rngesus.service.IUmsUserService;
@@ -41,5 +43,25 @@ public class IUmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> imp
                 .build();
         baseMapper.insert(newUser);
         return newUser;
+    }
+
+    @Override
+    public String executeLogin(LoginDTO dto) {
+        String token = null;
+        try {
+            LambdaQueryWrapper<UmsUser> wrapper = new LambdaQueryWrapper<>();
+
+            wrapper.eq(UmsUser::getUsername, dto.getPassword());
+            UmsUser user = baseMapper.selectOne(wrapper);
+
+            String encode = MD5Utils.getMD5(dto.getPassword());
+
+            if (encode.equals(user.getPassword())) {
+                token = JwtUtil.generateToken(String.valueOf(user.getUsername()));
+            }
+        } catch (Exception e) {
+            log.warn("username or password is incorrect {}", dto.getUsername());
+        }
+        return token;
     }
 }
