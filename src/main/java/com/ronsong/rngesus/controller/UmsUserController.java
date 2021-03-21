@@ -45,6 +45,11 @@ public class UmsUserController extends BaseController {
         return ApiResult.success(map, "Login success!!");
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ApiResult<Object> logout() {
+        return ApiResult.success("Logout success!!");
+    }
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ApiResult<UmsUser> getUser(@RequestHeader(value = USER_NAME) String username) {
         UmsUser user = iUmsUserService.getUserByUserName(username);
