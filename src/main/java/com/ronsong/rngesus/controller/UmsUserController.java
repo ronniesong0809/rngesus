@@ -6,15 +6,14 @@ import com.ronsong.rngesus.model.dto.SignupDTO;
 import com.ronsong.rngesus.model.entity.UmsUser;
 import com.ronsong.rngesus.service.IUmsUserService;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.ronsong.rngesus.common.jwt.JwtUtil.USER_NAME;
 
 @RestController
 @RequestMapping("/ums/user")
@@ -44,5 +43,11 @@ public class UmsUserController extends BaseController {
         Map<String, String> map = new HashMap<>(16);
         map.put("user", token);
         return ApiResult.success(map, "Login success!!");
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public ApiResult<UmsUser> getUser(@RequestHeader(value = USER_NAME) String username) {
+        UmsUser user = iUmsUserService.getUserByUserName(username);
+        return ApiResult.success(user);
     }
 }

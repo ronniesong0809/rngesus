@@ -64,4 +64,12 @@ public class IUmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> imp
         }
         return token;
     }
+
+    @Override
+    public UmsUser getUserByUserName(String username) {
+        LambdaQueryWrapper<UmsUser> wrapper = new LambdaQueryWrapper<>();
+
+        wrapper.eq(UmsUser::getUsername, username);
+        return baseMapper.selectOne(wrapper);
+    }
 }

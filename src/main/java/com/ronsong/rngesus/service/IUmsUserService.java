@@ -8,4 +8,5 @@ import com.ronsong.rngesus.model.entity.UmsUser;
 public interface IUmsUserService extends IService<UmsUser> {
     UmsUser executeSignup(SignupDTO dto);
     String executeLogin(LoginDTO dto);
+    UmsUser getUserByUserName(String username);
 }
