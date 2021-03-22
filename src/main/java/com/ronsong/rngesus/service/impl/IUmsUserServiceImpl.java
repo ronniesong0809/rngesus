@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Locale;
 
 @Slf4j
 @Service
@@ -38,6 +39,7 @@ public class IUmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> imp
                 .alias(dto.getUsername())
                 .email(dto.getEmail())
                 .password(MD5Utils.getMD5(dto.getPassword()))
+                .avatar(MD5Utils.getMD5(dto.getEmail().toLowerCase(Locale.ENGLISH)))
                 .createTime(new Date())
                 .status(true)
                 .build();

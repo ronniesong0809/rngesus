@@ -33,9 +33,8 @@ public class UmsUser implements Serializable {
     @TableField("password")
     private String password;
 
-    @Builder.Default
     @TableField("avatar")
-    private String avatar = "https://i.pravatar.cc/300";
+    private String avatar;
 
     @TableField("email")
     private String email;
@@ -45,7 +44,7 @@ public class UmsUser implements Serializable {
 
     @Builder.Default
     @TableField("bio")
-    private String bio = "";
+    private String bio = "Add a bio to your profile";
 
     @Builder.Default
     @TableField("score")
