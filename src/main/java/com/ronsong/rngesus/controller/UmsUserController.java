@@ -41,7 +41,7 @@ public class UmsUserController extends BaseController {
         }
 
         Map<String, String> map = new HashMap<>(16);
-        map.put("user", token);
+        map.put("token", token);
         return ApiResult.success(map, "Login success!!");
     }
 
