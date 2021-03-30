@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-@TableName("ums_user")
+@TableName("users")
 public class User implements Serializable {
     private static final long serialVersionUID = -7930715546061049679L;
 
