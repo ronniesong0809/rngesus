@@ -29,6 +29,6 @@ public class Billboard implements Serializable {
     private Date timestamp;
 
     @Builder.Default
-    @TableField("`show`")
+    @TableField("show")
     private boolean show = false;
 }
