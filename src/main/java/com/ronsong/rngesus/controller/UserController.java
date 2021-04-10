@@ -16,7 +16,7 @@ import java.util.Map;
 import static com.ronsong.rngesus.common.jwt.JwtUtil.USER_NAME;
 
 @RestController
-@RequestMapping("/ums/user")
+@RequestMapping("/user")
 public class UserController extends BaseController {
     @Resource
     private UserService UserService;
