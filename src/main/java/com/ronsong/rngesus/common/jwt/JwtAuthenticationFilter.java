@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean isProtectedUrl(HttpServletRequest httpServletRequest) {
         List<String> paths = new ArrayList<>();
-        paths.add("/ums/user/info");
+        paths.add("/user/info");
 
         boolean flag = false;
 

@@ -59,7 +59,7 @@ public class User implements Serializable {
     private Boolean active = true;
 
     @Builder.Default
-    @TableField("`status`")
+    @TableField("status")
     private Boolean status = true;
 
     @TableField("role_id")
