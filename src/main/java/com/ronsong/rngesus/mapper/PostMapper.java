@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostMapper extends BaseMapper<Post> {
     @Select("<script>" +
-            "SELECT p.id, p.title, p.user_id, p.comments, p.view, p.create_time, p.modify_time, u.username\n" +
+            "SELECT p.id, p.title, p.comments, p.view, p.create_time, p.modify_time, u.id, u.username, u.alias, u.avatar\n" +
             "FROM post p LEFT JOIN users u ON p.user_id = u.id" +
             "<where></where>" +
             "ORDER BY p.create_time DESC" +

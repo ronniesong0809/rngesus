@@ -15,8 +15,11 @@ import java.util.List;
 public class PostVO implements Serializable {
     private static final long serialVersionUID = 8260353099469691758L;
     private String id;
-    private String userId;
     private String title;
+    private String userId;
+    private String userName;
+    private String avatar;
+    private String alias;
     private List<Tag> tags;
     private Integer comments;
     private Integer collects;
