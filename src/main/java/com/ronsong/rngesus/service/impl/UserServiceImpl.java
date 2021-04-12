@@ -10,7 +10,7 @@ import com.ronsong.rngesus.model.dto.LoginDTO;
 import com.ronsong.rngesus.model.dto.SignupDTO;
 import com.ronsong.rngesus.model.entity.User;
 import com.ronsong.rngesus.service.UserService;
-import com.ronsong.rngesus.utils.MD5Utils;
+import com.ronsong.rngesus.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +38,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .username(dto.getUsername())
                 .alias(dto.getUsername())
                 .email(dto.getEmail())
-                .password(MD5Utils.getMD5(dto.getPassword()))
-                .avatar(MD5Utils.getMD5(dto.getEmail().toLowerCase(Locale.ENGLISH)))
+                .password(MD5Util.md5Hex(dto.getPassword()))
+                .avatar(MD5Util.md5Hex(dto.getEmail().toLowerCase(Locale.ENGLISH)))
                 .createTime(new Date())
                 .status(true)
                 .build();
@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             wrapper.eq(User::getUsername, dto.getUsername());
             User user = baseMapper.selectOne(wrapper);
 
-            String encode = MD5Utils.getMD5(dto.getPassword());
+            String encode = MD5Util.md5Hex(dto.getPassword());
 
             if (encode.equals(user.getPassword())) {
                 token = JwtUtil.generateToken(String.valueOf(user.getUsername()));
