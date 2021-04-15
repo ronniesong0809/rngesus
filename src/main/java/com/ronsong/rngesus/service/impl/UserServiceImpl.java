@@ -25,12 +25,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User executeSignup(SignupDTO dto) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        User user = baseMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, dto.getUsername()).or().eq(User::getEmail, dto.getEmail()));
 
-        wrapper.eq(User::getUsername, dto.getUsername()).or().eq(User::getEmail, dto.getEmail());
-        User umsUser = baseMapper.selectOne(wrapper);
-
-        if (!ObjectUtil.isEmpty(umsUser)) {
+        if (!ObjectUtil.isEmpty(user)) {
             ApiAsserts.fail("username or email already exists");
         }
 
@@ -51,10 +48,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String executeLogin(LoginDTO dto) {
         String token = null;
         try {
-            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-
-            wrapper.eq(User::getUsername, dto.getUsername());
-            User user = baseMapper.selectOne(wrapper);
+            User user = baseMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, dto.getUsername()));
 
             String encode = MD5Util.md5Hex(dto.getPassword());
 
@@ -69,9 +63,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User getUserByUserName(String username) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-
-        wrapper.eq(User::getUsername, username);
-        return baseMapper.selectOne(wrapper);
+        return baseMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
     }
 }

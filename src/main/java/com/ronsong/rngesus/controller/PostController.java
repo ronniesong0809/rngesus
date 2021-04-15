@@ -2,12 +2,13 @@ package com.ronsong.rngesus.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ronsong.rngesus.common.api.ApiResult;
+import com.ronsong.rngesus.model.dto.CreatePostDTO;
+import com.ronsong.rngesus.model.entity.Post;
+import com.ronsong.rngesus.model.entity.User;
 import com.ronsong.rngesus.model.vo.PostVO;
 import com.ronsong.rngesus.service.PostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.ronsong.rngesus.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -17,9 +18,19 @@ public class PostController extends BaseController {
     @Resource
     private PostService postService;
 
+    @Resource
+    private UserService userService;
+
     @GetMapping("/list")
     public ApiResult<Page<PostVO>> list(@RequestParam(value = "tab", defaultValue = "latest") String tab, @RequestParam(value = "current", defaultValue = "1") Integer current, @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        Page<PostVO> postPage = postService.getList(new Page<>(current, size), tab);
+        Page<PostVO> postPage = postService.getAllPost(new Page<>(current, size), tab);
         return ApiResult.success(postPage);
+    }
+
+    @PostMapping("/create")
+    public ApiResult<Post> create(@RequestHeader(value = "USER_NAME") String userName, @RequestBody CreatePostDTO createPostDTO) {
+        User user = userService.getUserByUserName(userName);
+        Post post = postService.createPost(user, createPostDTO);
+        return ApiResult.success(post);
     }
 }
