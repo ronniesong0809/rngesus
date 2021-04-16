@@ -95,8 +95,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             set.add(postTag.getTagId());
         }
 
-        List<Tag> tags = tagService.listByIds(set);
-        map.put("tags", tags);
+        if (!set.isEmpty()) {
+            List<Tag> tags = tagService.listByIds(set);
+            map.put("tags", tags);
+        }
 
         return map;
     }
