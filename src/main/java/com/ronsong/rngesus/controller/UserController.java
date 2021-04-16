@@ -19,11 +19,11 @@ import static com.ronsong.rngesus.common.jwt.JwtUtil.USER_NAME;
 @RequestMapping("/user")
 public class UserController extends BaseController {
     @Resource
-    private UserService UserService;
+    private UserService userService;
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @PostMapping("/signup")
     public ApiResult<Map<String, Object>> signup(@Valid @RequestBody SignupDTO dto) {
-        User user = UserService.executeSignup((dto));
+        User user = userService.executeSignup((dto));
         if (ObjectUtils.isEmpty(user)) {
             return ApiResult.failed("Signup failed!!");
         }
@@ -33,9 +33,9 @@ public class UserController extends BaseController {
         return ApiResult.success(map, "Signup success!!");
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ApiResult<Map<String, String>> login(@Valid @RequestBody LoginDTO dto) {
-        String token = UserService.executeLogin(dto);
+        String token = userService.executeLogin(dto);
         if (ObjectUtils.isEmpty(token)) {
             return ApiResult.failed("Login failed!!");
         }
@@ -45,14 +45,14 @@ public class UserController extends BaseController {
         return ApiResult.success(map, "Login success!!");
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping("/logout")
     public ApiResult<Object> logout() {
         return ApiResult.success("Logout success!!");
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @GetMapping("/info")
     public ApiResult<User> getUser(@RequestHeader(value = USER_NAME) String username) {
-        User user = UserService.getUserByUserName(username);
+        User user = userService.getUserByUserName(username);
         return ApiResult.success(user);
     }
 }

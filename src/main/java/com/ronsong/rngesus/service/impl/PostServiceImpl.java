@@ -15,9 +15,11 @@ import com.ronsong.rngesus.model.entity.User;
 import com.ronsong.rngesus.model.vo.PostVO;
 import com.ronsong.rngesus.service.PostService;
 import com.ronsong.rngesus.service.PostTagService;
+import com.ronsong.rngesus.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -31,6 +33,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Autowired
     private PostTagService postTagService;
+
+    @Autowired
+    private TagService tagService;
 
     @Override
     public Page<PostVO> getAllPost(Page<PostVO> page, String tab) {
@@ -64,6 +69,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .createTime(new Date())
                 .build();
         this.baseMapper.insert(newPost);
+
+        if (!ObjectUtils.isEmpty(createPostDTO.getTags())) {
+            List<Tag> tags = tagService.insertTags(createPostDTO.getTags());
+            postTagService.createPostTags(newPost.getId(), tags);
+        }
+
         return newPost;
     }
 }
