@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Map;
 
 import static com.ronsong.rngesus.common.jwt.JwtUtil.USER_NAME;
 
@@ -34,6 +35,12 @@ public class PostController extends BaseController {
     public ApiResult<Post> create(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody CreatePostDTO createPostDTO) {
         User user = userService.getUserByUserName(userName);
         Post post = postService.createPost(user, createPostDTO);
+        return ApiResult.success(post);
+    }
+
+    @GetMapping("/detail")
+    public ApiResult<Map<String, Object>> detail(@RequestParam("id") String id) {
+        Map<String, Object> post = postService.getPostDetail(id);
         return ApiResult.success(post);
     }
 }

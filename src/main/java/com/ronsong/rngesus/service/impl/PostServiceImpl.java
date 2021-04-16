@@ -22,8 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,5 +75,29 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
 
         return newPost;
+    }
+
+    @Override
+    public Map<String, Object> getPostDetail(String id) {
+        Map<String, Object> map = new HashMap<>();
+        Post post = this.baseMapper.selectById(id);
+
+        if (ObjectUtil.isNull(post)) {
+            ApiAsserts.fail("post not found");
+        }
+
+        post.setView(post.getView() + 1);
+        this.baseMapper.updateById(post);
+        map.put("post", post);
+
+        Set<String> set = new HashSet<>();
+        for (PostTag postTag : postTagService.list(new LambdaQueryWrapper<PostTag>().eq(PostTag::getPostId, post.getId()))) {
+            set.add(postTag.getTagId());
+        }
+
+        List<Tag> tags = tagService.listByIds(set);
+        map.put("tags", tags);
+
+        return map;
     }
 }

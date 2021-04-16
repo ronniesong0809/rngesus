@@ -7,7 +7,10 @@ import com.ronsong.rngesus.model.entity.Post;
 import com.ronsong.rngesus.model.entity.User;
 import com.ronsong.rngesus.model.vo.PostVO;
 
+import java.util.Map;
+
 public interface PostService extends IService<Post> {
     Page<PostVO> getAllPost(Page<PostVO> page, String tag);
     Post createPost(User user, CreatePostDTO createPostDTO);
+    Map<String, Object> getPostDetail(String id);
 }
