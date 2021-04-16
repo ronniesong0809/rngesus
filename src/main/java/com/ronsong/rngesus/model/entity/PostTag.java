@@ -17,8 +17,8 @@ import java.io.Serializable;
 public class PostTag implements Serializable {
     private static final long serialVersionUID = 6559052437436894283L;
 
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private String id;
 
     @TableField("tag_id")
     private String tagId;

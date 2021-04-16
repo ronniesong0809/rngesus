@@ -24,6 +24,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
                 tag = Tag.builder()
                         .name(t)
                         .build();
+                this.baseMapper.insert(tag);
+            } else {
+                tag.setPostCount(tag.getPostCount() + 1);
                 this.baseMapper.updateById(tag);
             }
             list.add(tag);

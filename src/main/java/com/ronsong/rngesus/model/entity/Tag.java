@@ -15,7 +15,6 @@ import java.io.Serializable;
 @TableName("tag")
 @Accessors(chain = true)
 public class Tag implements Serializable {
-
     private static final long serialVersionUID = 2532621588119715644L;
 
     @TableId(type = IdType.ASSIGN_ID)

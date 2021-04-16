@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+import static com.ronsong.rngesus.common.jwt.JwtUtil.USER_NAME;
+
 @RestController
 @RequestMapping("/post")
 public class PostController extends BaseController {
@@ -28,7 +30,7 @@ public class PostController extends BaseController {
     }
 
     @PostMapping("/create")
-    public ApiResult<Post> create(@RequestHeader(value = "USER_NAME") String userName, @RequestBody CreatePostDTO createPostDTO) {
+    public ApiResult<Post> create(@RequestHeader(value = USER_NAME) String userName, @RequestBody CreatePostDTO createPostDTO) {
         User user = userService.getUserByUserName(userName);
         Post post = postService.createPost(user, createPostDTO);
         return ApiResult.success(post);
