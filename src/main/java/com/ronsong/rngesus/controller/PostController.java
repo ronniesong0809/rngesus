@@ -3,6 +3,7 @@ package com.ronsong.rngesus.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ronsong.rngesus.common.api.ApiResult;
 import com.ronsong.rngesus.model.dto.CreatePostDTO;
+import com.ronsong.rngesus.model.dto.EditPostDTO;
 import com.ronsong.rngesus.model.entity.Post;
 import com.ronsong.rngesus.model.entity.User;
 import com.ronsong.rngesus.model.vo.PostVO;
@@ -35,6 +36,13 @@ public class PostController extends BaseController {
     public ApiResult<Post> create(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody CreatePostDTO createPostDTO) {
         User user = userService.getUserByUserName(userName);
         Post post = postService.createPost(user, createPostDTO);
+        return ApiResult.success(post);
+    }
+
+    @PostMapping("/edit")
+    public ApiResult<Post> edit(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody EditPostDTO editPostDTO) {
+        User user = userService.getUserByUserName(userName);
+        Post post = postService.editPost(user, editPostDTO);
         return ApiResult.success(post);
     }
 

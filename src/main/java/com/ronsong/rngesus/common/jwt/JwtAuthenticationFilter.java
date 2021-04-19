@@ -31,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         List<String> paths = new ArrayList<>();
         paths.add("/user/info");
         paths.add("/post/create");
+        paths.add("/post/edit");
 
         boolean flag = false;
 

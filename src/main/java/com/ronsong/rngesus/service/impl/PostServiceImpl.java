@@ -8,6 +8,7 @@ import com.ronsong.rngesus.common.exception.ApiAsserts;
 import com.ronsong.rngesus.mapper.PostMapper;
 import com.ronsong.rngesus.mapper.TagMapper;
 import com.ronsong.rngesus.model.dto.CreatePostDTO;
+import com.ronsong.rngesus.model.dto.EditPostDTO;
 import com.ronsong.rngesus.model.entity.Post;
 import com.ronsong.rngesus.model.entity.PostTag;
 import com.ronsong.rngesus.model.entity.Tag;
@@ -75,6 +76,17 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
 
         return newPost;
+    }
+
+    @Override
+    public Post editPost(User user, EditPostDTO editPostDTO) {
+        Post post = this.baseMapper.selectById(editPostDTO.getId());
+        post.setTitle(editPostDTO.getTitle());
+        post.setContent(editPostDTO.getContent());
+        post.setModifyTime(new Date());
+        this.baseMapper.updateById(post);
+
+        return post;
     }
 
     @Override
