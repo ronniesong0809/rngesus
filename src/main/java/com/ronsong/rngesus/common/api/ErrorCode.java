@@ -1,6 +1,6 @@
 package com.ronsong.rngesus.common.api;
 
-public interface IErrorCode {
+public interface ErrorCode {
     Integer getCode();
 
     String getMessage();

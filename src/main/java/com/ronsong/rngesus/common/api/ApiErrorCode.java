@@ -1,6 +1,6 @@
 package com.ronsong.rngesus.common.api;
 
-public enum ApiErrorCode implements IErrorCode {
+public enum ApiErrorCode implements ErrorCode {
 
     SUCCESS(200, "OK"),
     FAILED(400, "Bad Request"),

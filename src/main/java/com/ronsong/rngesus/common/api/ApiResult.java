@@ -20,7 +20,7 @@ public class ApiResult<T> implements Serializable {
         this.data = data;
     }
 
-    public ApiResult(IErrorCode errorCode) {
+    public ApiResult(ErrorCode errorCode) {
         errorCode = Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
         this.data = (T) errorCode.getCode();
         this.message = errorCode.getMessage();
@@ -46,11 +46,11 @@ public class ApiResult<T> implements Serializable {
         return new ApiResult<T>(ApiErrorCode.FAILED.getCode(), message, null);
     }
 
-    public static <T> ApiResult<T> failed(IErrorCode errorCode) {
+    public static <T> ApiResult<T> failed(ErrorCode errorCode) {
         return new ApiResult<T>(errorCode.getCode(), errorCode.getMessage(), null);
     }
 
-    public static <T> ApiResult<T> failed(IErrorCode errorCode, String message) {
+    public static <T> ApiResult<T> failed(ErrorCode errorCode, String message) {
         return new ApiResult<T>(errorCode.getCode(), message, null);
     }
 

@@ -1,11 +1,11 @@
 package com.ronsong.rngesus.common.exception;
 
-import com.ronsong.rngesus.common.api.IErrorCode;
+import com.ronsong.rngesus.common.api.ErrorCode;
 
 public class ApiException extends RuntimeException {
-    private IErrorCode errorCode;
+    private ErrorCode errorCode;
 
-    public ApiException(IErrorCode errorCode) {
+    public ApiException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
@@ -14,7 +14,7 @@ public class ApiException extends RuntimeException {
         super(message);
     }
 
-    public IErrorCode getErrorCode() {
+    public ErrorCode getErrorCode() {
         return errorCode;
     }
 }
