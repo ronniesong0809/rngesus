@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostTagService extends IService<PostTag> {
     List<PostTag> selectByPostId(String topicId);
     void createPostTags(String id, List<Tag> tags);
+    List<String> deleteByPostId(String id);
 }

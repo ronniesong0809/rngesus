@@ -71,7 +71,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         this.baseMapper.insert(newPost);
 
         if (!ObjectUtils.isEmpty(createPostDTO.getTags())) {
-            List<Tag> tags = tagService.insertTags(createPostDTO.getTags());
+            List<Tag> tags = tagService.insertTags(createPostDTO.getTags(), true);
             postTagService.createPostTags(newPost.getId(), tags);
         }
 
@@ -79,12 +79,21 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Post editPost(User user, EditPostDTO editPostDTO) {
         Post post = this.baseMapper.selectById(editPostDTO.getId());
         post.setTitle(editPostDTO.getTitle());
         post.setContent(editPostDTO.getContent());
         post.setModifyTime(new Date());
         this.baseMapper.updateById(post);
+
+        if (!ObjectUtils.isEmpty(editPostDTO.getTags())) {
+            List<Tag> tags = tagService.insertTags(editPostDTO.getTags(), false);
+            postTagService.createPostTags(post.getId(), tags);
+        } else {
+            List<String> tags = postTagService.deleteByPostId(post.getId());
+            tagService.removeByPostId(tags);
+        }
 
         return post;
     }

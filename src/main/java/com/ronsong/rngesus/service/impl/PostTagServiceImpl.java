@@ -9,6 +9,7 @@ import com.ronsong.rngesus.service.PostTagService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,5 +32,15 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
                     .build();
             this.baseMapper.insert(postTag);
         });
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<String> deleteByPostId(String id) {
+        LambdaQueryWrapper<PostTag> wrapper = new LambdaQueryWrapper<PostTag>().eq(PostTag::getPostId, id);
+
+        List<String> tags = this.baseMapper.selectList(wrapper).stream().map(PostTag::getTagId).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        this.baseMapper.delete(wrapper);
+        return tags;
     }
 }

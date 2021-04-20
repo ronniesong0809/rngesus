@@ -15,7 +15,7 @@ import java.util.List;
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<Tag> insertTags(List<String> tags) {
+    public List<Tag> insertTags(List<String> tags, boolean isNew) {
         List<Tag> list = new ArrayList<>();
         for (String t : tags) {
             Tag tag = this.baseMapper.selectOne(new LambdaQueryWrapper<Tag>().eq(Tag::getName, t));
@@ -23,14 +23,31 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
             if (tag == null) {
                 tag = Tag.builder()
                         .name(t)
+                        .postCount(1)
                         .build();
                 this.baseMapper.insert(tag);
             } else {
-                tag.setPostCount(tag.getPostCount() + 1);
+                if (isNew) {
+                    tag.setPostCount(tag.getPostCount() + 1);
+                }
                 this.baseMapper.updateById(tag);
             }
             list.add(tag);
         }
         return list;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removeByPostId(List<String> tags) {
+        for (String t : tags) {
+            Tag tag = this.baseMapper.selectOne(new LambdaQueryWrapper<Tag>().eq(Tag::getId, t));
+            if (tag.getPostCount() > 1) {
+                tag.setPostCount(tag.getPostCount() - 1);
+                this.baseMapper.updateById(tag);
+            } else {
+                this.baseMapper.deleteById(tag);
+            }
+        }
     }
 }
